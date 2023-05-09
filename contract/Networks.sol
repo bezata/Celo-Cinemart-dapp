@@ -28,6 +28,7 @@ interface IERC20Token {
 contract MovieStore {
     
     struct Movie {
+        address productionCo;
         string title;
         string director;
         string image;
@@ -60,9 +61,9 @@ contract MovieStore {
         authorized[owner] = true;
     }
     
-    function addMovie(string memory _title,string calldata _image,string calldata _description, string calldata _director, uint256 _price, uint _CopiesAvailable) public onlyAuthorized() {
+    function addMovie(string calldata _title, string calldata _image,string calldata _description, string calldata _director, uint256 _price, uint _CopiesAvailable) public onlyAuthorized() {
         movieCount++;
-        movies[movieCount] = Movie(_title, _director, _image, _description, _price, _CopiesAvailable);
+        movies[movieCount] = Movie(msg.sender, _title, _director, _image, _description, _price, _CopiesAvailable);
         emit MovieAdded(movieCount,_title,_director);
     }
     
@@ -83,8 +84,8 @@ contract MovieStore {
         emit MoviePurchased(_movieId, movies[_movieId].title, movies[_movieId].director);
     }
     
-    function getMovie(uint256 _movieId) public view returns (string memory,string memory, string memory, string memory, uint256, uint) {
-        return (movies[_movieId].title, movies[_movieId].director,movies[_movieId].image, movies[_movieId].description, movies[_movieId].price, movies[_movieId].CopiesAvailable);
+    function getMovie(uint256 _movieId) public view returns (address, string memory,string memory, string memory, string memory, uint256, uint) {
+        return (movies[_movieId].productionCo ,movies[_movieId].title, movies[_movieId].director,movies[_movieId].image, movies[_movieId].description, movies[_movieId].price, movies[_movieId].CopiesAvailable);
     }
 
     function getMovies() public view returns(uint) {

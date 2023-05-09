@@ -60,12 +60,13 @@ const getMovies = async function() {
       let p =await contract.methods.getMovie(i).call()
       resolve({
         index: i,
-        title:p[0],
-        director: p[1],
-        image : p[2],
-        description: p[3],
-        price: p[4],
-        CopiesAvailable: p[5]
+        productionCo: p[0],
+        title:p[1],
+        director: p[2],
+        image : p[3],
+        description: p[4],
+        price: p[5],
+        CopiesAvailable: p[6]
       })
     })
     _Movies.push(_data)
@@ -93,7 +94,7 @@ function  MovieTemplate(_Movie) {
       </div>
       <div class="card-body text-left p-4 position-relative">
       <div class="translate-middle-y position-absolute top-0">
-      ${identiconTemplate(_Movie.title)}
+      ${identiconTemplate(_Movie.productionCo)}
       </div>
       <h2 class="card-title fs-4 fw-bold mt-2">${_Movie.title}</h2>
       <p class="card-text mb-4" style="min-height: 82px">
